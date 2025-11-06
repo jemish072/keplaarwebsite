@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Environment</title>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        canvas { display: block; }
+        #loading {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: black; font-family: Arial; font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading 3D Environment...</div>
+
+    <!-- Load local files -->
+    <script src="three.min.js"></script>
+    <script src="GLTFLoader.js"></script>
+    <script src="OrbitControls.js"></script>
+
+    <script>
+        window.addEventListener('load', function() {
+            console.log('All scripts loaded!');
+            
+            // Basic Three.js setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+
+            // Load your GLB file
+            const loader = new THREE.GLTFLoader();
+            loader.load('environment.glb', 
+                function(gltf) {
+                    scene.add(gltf.scene);
+                    camera.position.set(0, 2, 5);
+                    document.getElementById('loading').style.display = 'none';
+                    console.log('✅ GLB loaded successfully!');
+                },
+                undefined,
+                function(error) {
+                    console.error('❌ Error:', error);
+                    document.getElementById('loading').textContent = 'Error loading model';
+                }
+            );
+
+            // Controls
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle resize
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        });
+    </script>
+</body>
+</html>
