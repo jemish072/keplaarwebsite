@@ -1,0 +1,564 @@
+/* UI Container - holds all UI elements */
+#ui-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  pointer-events: none; /* This will need to be removed for button to work */
+}
+
+/* Remove pointer-events none from container since button needs to be clickable */
+#ui-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  /* Removed: pointer-events: none; */
+}
+
+/* Video Background */
+#video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* UI Panels */
+#ui-panel-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 7%;
+  z-index: 2;
+  color: white;
+  text-align: left;
+}
+
+/* Logo Styles */
+.logo {
+  width: 400px;
+  height: auto;
+  margin-bottom: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+#ui-panel-1 h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#ui-panel-1 h2 {
+  font-size: 1.5rem;
+  margin-bottom: 3rem; /* Added space for the button */
+  font-weight: 300;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0.9;
+}
+
+/* Button Styles */
+#enter-button {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  pointer-events: auto; /* Ensure button is clickable */
+}
+
+#enter-button:hover {
+  background: white;
+  color: black;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation UI Styles */
+#navigation-ui {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1001;
+    display: flex;
+    gap: 15px;
+  }
+
+#previous-button,
+#next-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+}
+
+#previous-button:hover,
+#next-button:hover {
+    background: white;
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Make sure UI container doesn't block navigation */
+#ui-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  pointer-events: none; /* This allows clicks to pass through to navigation */
+}
+
+/* But ensure UI container children don't block either */
+#ui-container > * {
+  pointer-events: none;
+}
+
+/* Except the button inside should be clickable */
+#enter-button {
+  pointer-events: auto;
+}
+
+/* Blurred UI Overlays */
+.blurred-ui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blurred-ui .ui-content {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    color: white;
+    position: relative;
+    backdrop-filter: blur(5px);
+}
+
+/* Social Media Grid */
+.social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.social-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.social-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.social-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* ============ FORM CONTAINER ============ */
+.blurred-ui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ui-content {
+    max-width: 480px;
+    width: 100%;
+    background: rgba(18, 18, 24, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 30px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ============ CLEAN SCROLLBAR ============ */
+.ui-content {
+    scrollbar-width: thick;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.ui-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ui-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 3px;
+}
+
+.ui-content::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+.ui-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+.ui-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+
+
+/* ============ FORM HEADER ============ */
+.ui-content h2 {
+    font-size: 28px;
+    color: white;
+    margin: 0 0 8px 0;
+    text-align: left;
+    font-weight: 600;
+}
+
+.form-subtitle {
+    margin-bottom: 30px;
+    opacity: 0.8;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: left;
+    line-height: 1.5;
+}
+
+/* ============ FORM LAYOUT ============ */
+#player-application-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.vertical-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ============ FORM GROUPS ============ */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============ FORM INPUTS ============ */
+.form-group input,
+.select-wrapper select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.select-wrapper select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============ SELECT DROPDOWN ============ */
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper select {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 40px;
+}
+
+.select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+}
+
+.select-wrapper select option {
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+}
+
+/* ============ FILE UPLOAD ============ */
+.file-upload {
+    margin-top: 5px;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-label:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.file-icon {
+    font-size: 1.2rem;
+}
+
+.file-text {
+    font-size: 0.9rem;
+    color: white;
+}
+
+.file-info {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.file-hint {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============ BUTTONS ============ */
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.close-button:hover {
+    transform: rotate(90deg);
+}
+
+/* ============ LOADING STATE ============ */
+.submit-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+/* ============ FORM NOTE ============ */
+.form-note {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 768px) {
+    .ui-content {
+        padding: 25px 20px;
+        max-height: 95vh;
+        margin: 0;
+        border-radius: 12px;
+    }
+    
+    .ui-content h2 {
+        font-size: 24px;
+    }
+    
+    .form-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 25px;
+    }
+    
+    #player-application-form {
+        gap: 18px;
+    }
+    
+    .close-button {
+        top: 15px;
+        right: 15px;
+    }
+}
+
+/* ============ COMPACT LAYOUT VARIANTS ============ */
+.compact-form .ui-content {
+    max-width: 700px;
+    padding: 30px;
+}
+
+.compact-form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.form-group.half {
+    flex: 1;
+    min-width: 0;
+}
+
+.form-group.half input,
+.form-group.half .select-wrapper select {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-group.half {
+        width: 100%;
+    }
+    
+    .compact-form .ui-content {
+        padding: 20px;
+    }
+}
+
+/* Ensure intro UI is below header */
+#ui-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000; /* Below header */
+  pointer-events: none;
+}
+
+/* Ensure navigation button is above everything */
+#navigation-ui {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 3001; /* Above header */
+}
