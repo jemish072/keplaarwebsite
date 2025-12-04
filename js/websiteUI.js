@@ -1,4 +1,4 @@
-// websiteUI.js - Simplified without auto-highlighting
+// websiteUI.js - Updated with camera position sync
 console.log('🔧 websiteUI.js loaded');
 
 class WebsiteUI {
@@ -42,6 +42,9 @@ class WebsiteUI {
     
     // Listen for Enter Environment button click
     this.setupEnterButtonListener();
+    
+    // 👇 NEW: Listen for camera position changes
+    this.setupCameraPositionListener();
   }
   
   setupNavigation() {
@@ -60,6 +63,107 @@ class WebsiteUI {
     });
   }
   
+  setupCameraPositionListener() {
+    console.log('🎯 WebsiteUI: Setting up camera position listener');
+    
+    // Method 1: Check camera position periodically
+    this.cameraCheckInterval = setInterval(() => {
+      this.updateHeaderFromCameraPosition();
+    }, 500); // Check every 500ms
+    
+    // Method 2: Listen for camera animation completion
+    this.setupCameraAnimationListener();
+  }
+  
+  updateHeaderFromCameraPosition() {
+    if (!window.app?.cameraController) {
+      return;
+    }
+    
+    const currentPos = window.app.cameraController.currentCameraPosition;
+    // console.log(`🔄 Camera position: ${currentPos}`);
+    
+    // Map camera position to screen ID
+    const cameraToScreenMap = {
+      'screen1': 'events',
+      'screen2': 'about',
+      'screen3': 'team', 
+      'screen4': 'giveaways',
+      'outro': 'join',
+      'intro': null // No highlight during intro
+    };
+    
+    const screenId = cameraToScreenMap[currentPos];
+    
+    if (screenId) {
+      this.updateActiveNavLink(screenId);
+    } else if (currentPos === 'intro') {
+      // Clear highlights during intro
+      this.navLinks.forEach(link => link.classList.remove('active'));
+    }
+  }
+  
+  setupCameraAnimationListener() {
+    // Override the animateCameraToPosition method to notify us when camera moves
+    if (window.app?.cameraController) {
+      const originalAnimate = window.app.cameraController.animateCameraToPosition;
+      
+      window.app.cameraController.animateCameraToPosition = function(...args) {
+        const promise = originalAnimate.apply(this, args);
+        
+        // When animation completes, update header
+        promise.then(() => {
+          if (window.websiteUI) {
+            setTimeout(() => {
+              window.websiteUI.updateHeaderFromCameraPosition();
+            }, 100);
+          }
+        });
+        
+        return promise;
+      };
+      
+      console.log('✅ WebsiteUI: Camera animation listener attached');
+    }
+  }
+  
+  // Update the goToCameraPosition method to also trigger header update
+  goToCameraPosition(cameraPos) {
+    console.log(`🎬 Moving camera to: ${cameraPos}`);
+    
+    if (!window.app?.cameraController) {
+      console.error('Camera controller not available yet');
+      setTimeout(() => this.goToCameraPosition(cameraPos), 500);
+      return;
+    }
+    
+    const targetPos = window.app.cameraController.cameraPositions[cameraPos];
+    if (!targetPos) {
+      console.error(`Camera position not found: ${cameraPos}`);
+      return;
+    }
+    
+    window.app.cameraController.animateCameraToPosition(
+      targetPos.position,
+      targetPos.target,
+      2
+    ).then(() => {
+      // Update camera state
+      window.app.cameraController.currentCameraPosition = cameraPos;
+      
+      // Update navigation UI buttons
+      if (window.app.uiManager) {
+        window.app.uiManager.updateNavigationButtons();
+      }
+      
+      // 👇 Update header highlighting
+      this.updateHeaderFromCameraPosition();
+      
+      console.log(`✅ Arrived at ${cameraPos}`);
+    });
+  }
+  
+  // Keep all other methods the same...
   navigateToScreen(screenId) {
     console.log(`🎯 Navigating to: ${screenId}`);
     
@@ -110,47 +214,15 @@ class WebsiteUI {
     }
   }
   
-  goToCameraPosition(cameraPos) {
-    console.log(`🎬 Moving camera to: ${cameraPos}`);
-    
-    if (!window.app?.cameraController) {
-      console.error('Camera controller not available yet');
-      setTimeout(() => this.goToCameraPosition(cameraPos), 500);
-      return;
-    }
-    
-    const targetPos = window.app.cameraController.cameraPositions[cameraPos];
-    if (!targetPos) {
-      console.error(`Camera position not found: ${cameraPos}`);
-      return;
-    }
-    
-    window.app.cameraController.animateCameraToPosition(
-      targetPos.position,
-      targetPos.target,
-      2
-    ).then(() => {
-      // Update camera state
-      window.app.cameraController.currentCameraPosition = cameraPos;
-      
-      // Update navigation UI buttons
-      if (window.app.uiManager) {
-        window.app.uiManager.updateNavigationButtons();
-      }
-      
-      console.log(`✅ Arrived at ${cameraPos}`);
-    });
-  }
-  
   goToJoinScreen() {
-    console.log('📱 Going to Join Us (outro/social media)');
+    console.log('📱 Going to Join Us (social media/contact form)');
     
     // Check if we're in intro
     const uiContainer = document.getElementById('ui-container');
     const isIntro = uiContainer && uiContainer.style.display !== 'none';
     
     if (isIntro) {
-      // Enter environment first, then go to join
+      // If in intro, enter environment first
       console.log('🚪 Entering environment first...');
       const enterButton = document.getElementById('enter-button');
       if (enterButton) {
@@ -206,6 +278,9 @@ class WebsiteUI {
         window.app.uiManager.showSocialMediaUI();
         window.app.uiManager.hideNavigation();
       }
+      
+      // 👇 Update header to highlight "Join Us"
+      this.updateActiveNavLink('join');
     });
   }
   
@@ -234,6 +309,11 @@ class WebsiteUI {
       this.header.style.opacity = '1';
       this.header.style.transform = 'translateY(0)';
     }, 10);
+    
+    // 👇 Set initial active state based on current camera position
+    setTimeout(() => {
+      this.updateHeaderFromCameraPosition();
+    }, 100);
   }
   
   setupEnterButtonListener() {
@@ -249,11 +329,15 @@ class WebsiteUI {
         setTimeout(() => {
           this.showHeader();
           console.log('✅ WebsiteUI: Header shown');
-          
-          // Set "Upcoming Events" as active when entering environment
-          this.updateActiveNavLink('events');
         }, 2500);
       });
+    }
+  }
+  
+  // Clean up interval when page unloads
+  cleanup() {
+    if (this.cameraCheckInterval) {
+      clearInterval(this.cameraCheckInterval);
     }
   }
 }
@@ -262,4 +346,11 @@ class WebsiteUI {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('📄 DOM ready - creating WebsiteUI');
   window.websiteUI = new WebsiteUI();
+});
+
+// Clean up on page unload
+window.addEventListener('beforeunload', () => {
+  if (window.websiteUI) {
+    window.websiteUI.cleanup();
+  }
 });

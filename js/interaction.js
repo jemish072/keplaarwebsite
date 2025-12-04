@@ -57,11 +57,25 @@ class InteractionManager {
             this.onClick(event);
         });
 
-        // 👇 FIX: Use non-passive event listener for wheel
+        // 👇 MODIFIED: Check if UI is open before processing scroll
         window.addEventListener('wheel', (event) => {
+            // Check if any UI overlay is open
+            const socialUI = document.getElementById('social-media-ui');
+            const formUI = document.getElementById('contact-form-ui');
+            
+            const isSocialOpen = socialUI && socialUI.style.display !== 'none';
+            const isFormOpen = formUI && formUI.style.display !== 'none';
+            
+            if (isSocialOpen || isFormOpen) {
+            // UI is open - don't process scroll for camera
+            console.log('Scroll blocked - UI overlay open');
+            return;
+            }
+            
+            // Only process scroll if no UI is open
             this.onScroll(event);
-        }, { passive: false }); // 👈 Explicitly set passive: false
-    }
+        }, { passive: false });
+        }
 
     setupTooltip() {
         // Create tooltip element

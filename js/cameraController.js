@@ -6,11 +6,11 @@ class CameraController {
         
         this.cameraPositions = {
             intro: { position: new THREE.Vector3(4, 6, 7), target: new THREE.Vector3(0, 0, 0) },
-            screen1: { position: new THREE.Vector3(0, 2, -1), target: new THREE.Vector3(0, 2, -7) },
+            screen1: { position: new THREE.Vector3(0, 2.5, -1), target: new THREE.Vector3(0, 2.7, -7) },
             banner1: { position: new THREE.Vector3(2, 4, 0), target: new THREE.Vector3(9, 4, -6) },
-            screen2: { position: new THREE.Vector3(2, 2, 1.7), target: new THREE.Vector3(8, 3, 1.7) },
-            screen3: { position: new THREE.Vector3(0, 2, 5), target: new THREE.Vector3(0, 2, 7) },
-            screen4: { position: new THREE.Vector3(-2, 2, 1.7), target: new THREE.Vector3(-8, 3, 1.7) },
+            screen2: { position: new THREE.Vector3(2, 2.5, 1.7), target: new THREE.Vector3(8, 3, 1.7) },
+            screen3: { position: new THREE.Vector3(0, 2.5, 4.7), target: new THREE.Vector3(0, 2.5, 7) },
+            screen4: { position: new THREE.Vector3(-2, 2.5, 1.7), target: new THREE.Vector3(-8, 3, 1.7) },
             outro: { position: new THREE.Vector3(4, 6, 7), target: new THREE.Vector3(0, 0, 0) }
         };
         

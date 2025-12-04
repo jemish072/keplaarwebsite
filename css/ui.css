@@ -179,32 +179,225 @@
     backdrop-filter: blur(5px);
 }
 
-/* Social Media Grid */
+/* ============ Social Media ============ */
+#social-media-ui .ui-content {
+  background: rgba(20, 20, 30, 0.9);
+  border: 1px solid rgba(0, 170, 255, 0.3);
+  border-radius: 20px;
+  padding: 50px;
+  max-width: 600px;
+  width: 90%;
+  color: white;
+  position: relative;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#social-media-ui h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #00aaff, #00ffaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#social-media-ui .subtitle {
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
 .social-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin: 30px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin: 40px 0;
 }
 
 .social-item {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background: linear-gradient(145deg, rgba(30, 30, 45, 0.9), rgba(15, 15, 25, 0.9));
+  border: 1px solid rgba(0, 170, 255, 0.2);
+  border-radius: 15px;
+  padding: 25px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(0, 170, 255, 0.1), 
+    rgba(0, 255, 170, 0.1));
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .social-item:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+  transform: translateY(-5px);
+  border-color: rgba(0, 170, 255, 0.5);
+  box-shadow: 0 15px 35px rgba(0, 170, 255, 0.2);
+}
+
+.social-item:hover::before {
+  opacity: 1;
+}
+
+.social-logo {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.social-item:hover .social-logo {
+  background: rgba(0, 170, 255, 0.1);
+  transform: scale(1.1);
 }
 
 .social-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(1.2);
+}
+
+/* Platform-specific icon colors on hover */
+.social-item[data-platform="instagram"]:hover .social-icon {
+  filter: drop-shadow(0 0 10px rgba(225, 48, 108, 0.5));
+}
+
+.social-item[data-platform="twitter"]:hover .social-icon {
+  filter: drop-shadow(0 0 10px rgba(29, 161, 242, 0.5));
+}
+
+.social-item[data-platform="youtube"]:hover .social-icon {
+  filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+}
+
+.social-item[data-platform="discord"]:hover .social-icon {
+  filter: drop-shadow(0 0 10px rgba(88, 101, 242, 0.5));
+}
+
+.social-name {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.social-handle {
+  display: block;
+  font-size: 0.9rem;
+  color: #aaa;
+  font-weight: 400;
+}
+
+/* Next Button - Enhanced */
+#next-to-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, #00aaff, #00ffaa);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 170, 255, 0.3);
+}
+
+#next-to-form:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 170, 255, 0.4);
+  background: linear-gradient(135deg, #00bbff, #00ffbb);
+}
+
+#next-to-form svg {
+  transition: transform 0.3s ease;
+}
+
+#next-to-form:hover svg {
+  transform: translateX(5px);
+}
+
+/* Close button */
+#social-media-ui .close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+#social-media-ui .close-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #social-media-ui .ui-content {
+    padding: 30px 20px;
+    width: 95%;
+  }
+  
+  .social-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .social-item {
+    padding: 20px 15px;
+  }
+  
+  .social-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .social-icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  #social-media-ui h2 {
     font-size: 2rem;
-    margin-bottom: 10px;
+  }
 }
 
 /* ============ FORM CONTAINER ============ */
@@ -499,6 +692,16 @@
         top: 15px;
         right: 15px;
     }
+    #social-media-ui,
+    #contact-form-ui {
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    }
+
+    /* Or add this to body when UI is open */
+    body.ui-open {
+    overflow: hidden;
+    }
 }
 
 /* ============ COMPACT LAYOUT VARIANTS ============ */
@@ -542,17 +745,6 @@
     .compact-form .ui-content {
         padding: 20px;
     }
-}
-
-/* Ensure intro UI is below header */
-#ui-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2000; /* Below header */
-  pointer-events: none;
 }
 
 /* Ensure navigation button is above everything */
